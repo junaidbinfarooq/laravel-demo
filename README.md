@@ -1,9 +1,4 @@
 
-# Webbee Coding test
+# Demo laravel app
 
-This test is designed to give you the possibility to show off your skills!
-
-Good luck! 🍀🚀
-
-## ⚠️ Attention:
-**Dont fork this repo as this shows other applicants your solution.**
+This is a basic laravel app written in laravel v8.*
