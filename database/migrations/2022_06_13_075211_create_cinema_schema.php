@@ -33,11 +33,55 @@ class CreateCinemaSchema extends Migration
      * As a user I want to book a vip seat/couple seat/super vip/whatever
      * As a user I want to see which seats are still available
      * As a user I want to know where I'm sitting on my ticket
-     * As a cinema owner I dont want to configure the seating for every show
+     * As a cinema owner I don't want to configure the seating for every show
      */
-    public function up()
+    public function up(): void
     {
-        throw new \Exception('implement in coding task 4, you can ignore this exception if you are just running the initial migrations.');
+        // Users
+        Schema::create('user', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->timestamps();
+        });
+
+        // Films and shows
+        Schema::create('films', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->boolean('is_a_show')->default(false);
+            $table->boolean('is_booked')->default(false);
+            $table->decimal('price');
+            $table->dateTime('starts_at');
+            $table->timestamps();
+        });
+
+        Schema::create('seats', function (Blueprint $table) {
+            $table->id();
+            $table->string('type');
+            $table->boolean('is_available')->default(true);
+            $table->decimal('price');
+            $table->decimal('percentage_premium');
+            $table->timestamps();
+        });
+
+        Schema::create('locations', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create('users_films', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id');
+            $table->foreignId('film_id');
+            $table->foreignId('seat_id');
+            $table->foreignId('location_id');
+            $table->timestamps();
+        });
+
     }
 
     /**
@@ -45,7 +89,12 @@ class CreateCinemaSchema extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
+        Schema::dropIfExists('user');
+        Schema::dropIfExists('films');
+        Schema::dropIfExists('seats');
+        Schema::dropIfExists('locations');
+        Schema::dropIfExists('users_films');
     }
 }
